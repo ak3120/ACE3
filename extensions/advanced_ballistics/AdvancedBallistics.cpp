@@ -45,7 +45,7 @@ struct Bullet {
     double lastFrame;
     double hDeflection;
     double spinDrift;
-	double bcDegradation;
+    double bcDegradation;
     unsigned randSeed;
     std::default_random_engine randGenerator;
 };
@@ -372,7 +372,7 @@ void __stdcall RVExtension(char *output, int outputSize, const char *function)
         bulletDatabase[index].lastFrame = tickTime;
         bulletDatabase[index].hDeflection = 0.0;
         bulletDatabase[index].spinDrift = 0.0;
-		bulletDatabase[index].bcDegradation = 1.0;
+        bulletDatabase[index].bcDegradation = 1.0;
         bulletDatabase[index].speed = 0.0;
         bulletDatabase[index].frames = 0.0;
         bulletDatabase[index].randSeed = 0;
@@ -508,23 +508,23 @@ void __stdcall RVExtension(char *output, int outputSize, const char *function)
         trueVelocity[2] = velocity[2] - wind[2];
         trueSpeed = sqrt(pow(trueVelocity[0], 2) + pow(trueVelocity[1], 2) + pow(trueVelocity[2], 2));
 
-		double speedOfSound = 331.3 + (0.6 * temperature);
-		double transonicSpeed = 394 + (0.6 * temperature);
-		if (bulletDatabase[index].transonicStabilityCoef < 1.0f && bulletSpeed < transonicSpeed && bulletSpeed > speedOfSound) {
-			std::uniform_real_distribution<double> distribution(-10.0, 10.0);
-			double coef = 1.0f - bulletDatabase[index].transonicStabilityCoef;
+        double speedOfSound = 331.3 + (0.6 * temperature);
+        double transonicSpeed = 394 + (0.6 * temperature);
+        if (bulletDatabase[index].transonicStabilityCoef < 1.0f && bulletSpeed < transonicSpeed && bulletSpeed > speedOfSound) {
+            std::uniform_real_distribution<double> distribution(-10.0, 10.0);
+            double coef = 1.0f - bulletDatabase[index].transonicStabilityCoef;
 
-			trueVelocity[0] += distribution(bulletDatabase[index].randGenerator) * coef;
-			trueVelocity[1] += distribution(bulletDatabase[index].randGenerator) * coef;
-			trueVelocity[2] += distribution(bulletDatabase[index].randGenerator) * coef;
-			double speed = sqrt(pow(trueVelocity[0], 2) + pow(trueVelocity[1], 2) + pow(trueVelocity[2], 2));
+            trueVelocity[0] += distribution(bulletDatabase[index].randGenerator) * coef;
+            trueVelocity[1] += distribution(bulletDatabase[index].randGenerator) * coef;
+            trueVelocity[2] += distribution(bulletDatabase[index].randGenerator) * coef;
+            double speed = sqrt(pow(trueVelocity[0], 2) + pow(trueVelocity[1], 2) + pow(trueVelocity[2], 2));
 
-			trueVelocity[0] *= trueSpeed / speed;
-			trueVelocity[1] *= trueSpeed / speed;
-			trueVelocity[2] *= trueSpeed / speed;
+            trueVelocity[0] *= trueSpeed / speed;
+            trueVelocity[1] *= trueSpeed / speed;
+            trueVelocity[2] *= trueSpeed / speed;
 
-			bulletDatabase[index].bcDegradation *= pow(0.993, coef);
-		};
+            bulletDatabase[index].bcDegradation *= pow(0.993, coef);
+        };
 
         temperature = bulletDatabase[index].temperature - 0.0065 * position[2];
         pressure = (1013.25 - 10 * bulletDatabase[index].overcast) * pow(1 - (0.0065 * (bulletDatabase[index].altitude + position[2])) / (273.15 + temperature + 0.0065 * bulletDatabase[index].altitude), 5.255754495);
@@ -549,7 +549,7 @@ void __stdcall RVExtension(char *output, int outputSize, const char *function)
             }
 
             ballisticCoefficient = calculateAtmosphericCorrection(ballisticCoefficient, temperature, pressure, bulletDatabase[index].humidity, bulletDatabase[index].atmosphereModel);
-			ballisticCoefficient *= bulletDatabase[index].bcDegradation;
+            ballisticCoefficient *= bulletDatabase[index].bcDegradation;
             drag = deltaT * calculateRetard(bulletDatabase[index].dragModel, ballisticCoefficient, trueSpeed);
             accel[0] = (trueVelocity[0] / trueSpeed) * drag;
             accel[1] = (trueVelocity[1] / trueSpeed) * drag;
@@ -604,7 +604,7 @@ void __stdcall RVExtension(char *output, int outputSize, const char *function)
         positionOffset[0] += sin(bulletDir + M_PI / 2) * spinDriftPartial;
         positionOffset[1] += cos(bulletDir + M_PI / 2) * spinDriftPartial;
 
-		outputStr << "_bullet setVelocity (_bulletVelocity vectorAdd [" << velocityOffset[0] << "," << velocityOffset[1] << "," << velocityOffset[2] << "]); _bullet setPosASL (_bulletPosition vectorAdd [" << positionOffset[0] << "," << positionOffset[1] << "," << positionOffset[2] << "]);";
+        outputStr << "_bullet setVelocity (_bulletVelocity vectorAdd [" << velocityOffset[0] << "," << velocityOffset[1] << "," << velocityOffset[2] << "]); _bullet setPosASL (_bulletPosition vectorAdd [" << positionOffset[0] << "," << positionOffset[1] << "," << positionOffset[2] << "]);";
         strncpy_s(output, outputSize, outputStr.str().c_str(), _TRUNCATE);
         EXTENSION_RETURN();
     } else if (!strcmp(mode, "set")) {
