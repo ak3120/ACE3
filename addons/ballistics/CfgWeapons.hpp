@@ -28,9 +28,14 @@ class CfgWeapons {
     };
 
     class DMR_07_base_F: Rifle_Long_Base_F {
-        initSpeed = -0.982908;
+        initSpeed = -1.06051;
         ACE_barrelTwist = 228.6;
         ACE_barrelLength = 640.0;
+        magazines[] = {
+            "20Rnd_650x39_Cased_Mag_F",
+            "ACE_20Rnd_65x47_Scenar_mag",
+            "ACE_20Rnd_65_Creedmor_mag"
+        };
     };
     
     class DMR_06_base_F: Rifle_Long_Base_F {
@@ -536,6 +541,10 @@ class CfgWeapons {
     };
     */
     class srifle_LRR_F: LRR_base_F {
+        magazines[] = {
+            "7Rnd_408_Mag",
+            "ACE_7Rnd_408_305gr_Mag"
+        };
         initSpeed = -1.0;
         ACE_barrelTwist=330.2;
         ACE_barrelLength=736.6;
