@@ -53,7 +53,7 @@ if (CBA_missionTime < GVAR(nextEffectsUpdate)) then {
     };
     // Need to rapidly update fog or it will try to resync from the server
     if (missionNamespace getVariable [QGVAR(enableChangingFog), true]) then {
-        0 setFog GVAR(nvgFog)
+        0 setFog GVAR(nvgFog);
     };
 } else {
     GVAR(nextEffectsUpdate) = CBA_missionTime + 1;
@@ -76,7 +76,7 @@ if (CBA_missionTime < GVAR(nextEffectsUpdate)) then {
 
     private _playerBrightSetting = ACE_player getVariable [QGVAR(NVGBrightness), 0];
     _brightFinal = _brightFinal + (_playerBrightSetting / 20);
-    
+
     private _fogApply = linearConversion [0,1,_lightFinal,st_nvg_MaxFog,st_nvg_MinFog,true];
 
     // Modify blur if looking down scope
@@ -131,9 +131,12 @@ if (CBA_missionTime < GVAR(nextEffectsUpdate)) then {
         if ((vehicle ACE_player) != ACE_player) then {  // For flying in particular, can refine nicer later.
             _fogApply = _fogApply * st_nvg_AirFogMultiplier
         };
+        _fogApply = linearConversion [0, 1, GVAR(priorFog) select 0, _fogApply, 1]; // mix in old fog if present
         GVAR(nvgFog) = [_fogApply, 0, 0];
         0 setFog GVAR(nvgFog)
     };
 
+    #ifdef DEBUG_MODE_FULL
     hintSilent format ["Time %1\nLight: %2\nACE Ambient: %3\nBrightness: %4\nContrast: %5\nGrain: %6\nBlur: %7\nFog: %8",time,_lightFinal,_aceAmbient,_brightFinal,_contrastFinal,[_grainIntensityFinal, _noiseSharpnessFinal, _grainFinal], _blurFinal, _fogApply];
+    #endif
 };
