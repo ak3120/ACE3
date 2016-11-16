@@ -1134,6 +1134,19 @@ class ATragMX_Display {
             idc=120040;
             y=0.265*safezoneH+safezoneY+0.440;
         };
+        class TEXT_GUN_AMMO_DATA_RIFLE_TWIST_R: TEXT_TARGET_A {
+            idc=120041;
+            x=0.550*safezoneW+safezoneX+0.286;
+            y=0.265*safezoneH+safezoneY+0.440;
+            text="R";
+            action=QUOTE(+1 call FUNC(change_twist_direction));
+        };
+        class TEXT_GUN_AMMO_DATA_RIFLE_TWIST_L: TEXT_GUN_AMMO_DATA_RIFLE_TWIST_R {
+            idc=120042;
+            x=0.550*safezoneW+safezoneX+0.3091;
+            text="L";
+            action=QUOTE(-1 call FUNC(change_twist_direction));
+        };
         class TEXT_GUN_AMMO_DATA_MUZZLE_VELOCITY: TEXT_GUN_AMMO_DATA_BORE_HEIGHT {
             idc=12005;
             y=0.265*safezoneH+safezoneY+0.480;

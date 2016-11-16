@@ -153,6 +153,9 @@ if (GVAR(currentUnit) != 2) then {
     _rifleTwist = 1 max _rifleTwist min 75;
     _muzzleVelocity = 100 max _muzzleVelocity min 1400;
 };
+if (ctrlEnabled 120041) then {
+    _rifleTwist = -_rifleTwist;
+};
 _zeroRange = 25 max _zeroRange min 1000;
 if (GVAR(currentUnit) == 1) then {
     _zeroRange = _zeroRange * 0.9144;

@@ -38,9 +38,9 @@ if (missionNamespace getVariable [QEGVAR(advanced_ballistics,enabled), false]) t
     ctrlSetText [120030, Str(Round((GVAR(workingMemory) select 4) * -1000 * 1000) / 1000)];
 };
 if (GVAR(currentUnit) != 2) then {
-    ctrlSetText [120040, Str(Round((GVAR(workingMemory) select 14) / 2.54 * 10) / 10)];
+    ctrlSetText [120040, Str(Round(abs(GVAR(workingMemory) select 14) / 2.54 * 10) / 10)];
 } else {
-    ctrlSetText [120040, Str(Round((GVAR(workingMemory) select 14) * 100) / 100)];
+    ctrlSetText [120040, Str(Round(abs(GVAR(workingMemory) select 14) * 100) / 100)];
 };
 if (GVAR(currentUnit) != 2) then {
     ctrlSetText [120050, Str(Round((GVAR(workingMemory) select 1) * 3.2808399))];
@@ -77,3 +77,5 @@ if (GVAR(currentUnit) == 1) then {
 } else {
     ctrlSetText [12006, "Zero Range (meters)"];
 };
+
+call FUNC(update_twist_direction_selection);
